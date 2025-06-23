@@ -1,0 +1,11 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <RetryUntilSuccessful num_attempts="100">
+      <Sequence name="LandingOnAruco">
+        <DetectAruco aruco_pose="{aruco_pose}" />
+        <AlignToAruco aruco_pose="{aruco_pose}" />
+        <LandOnMarker aruco_pose="{aruco_pose}"/>
+      </Sequence>
+    </RetryUntilSuccessful>
+  </BehaviorTree>
+</root>
