@@ -37,16 +37,12 @@ BT::NodeStatus LandOnMarker::tick()
   }
   RCLCPP_INFO(node_->get_logger(), "Landing initiated");
   rclcpp::Time start_time = node_->now();
-  if (marker_pose.pose.position.z < 0.2) {
+  if (marker_pose.pose.position.z < 0.5) {
     std_msgs::msg::Empty msg;
-    geometry_msgs::msg::Twist cmd_vel_msg;
-    cmd_vel_msg.linear.x = 0.0;
-    cmd_vel_msg.linear.y = 0.0;
-    cmd_vel_msg.linear.z = -0.5;  // Move downwards
-    cmd_vel_pub_->publish(cmd_vel_msg);
+    land_pub_->publish(msg);
 
     // Give the drone some time to respond before succeeding
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 
     return BT::NodeStatus::SUCCESS;
   } else {
@@ -57,7 +53,7 @@ BT::NodeStatus LandOnMarker::tick()
     cmd_vel_pub_->publish(cmd_vel_msg);
 
     // Give the drone some time to respond before checking again
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(200));
     return BT::NodeStatus::FAILURE;
 
   }
